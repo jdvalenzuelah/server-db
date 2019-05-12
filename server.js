@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const db = require('./src/queries')
 const app = express()
 const port = process.env.PORT || 3000;
 
@@ -13,6 +14,21 @@ app.use(
 app.get('/', (request, response) => {
     response.json({ info: 'Node.js, Express, and Postgres API' })
   })
+
+app.get('/admin/cust', db.getClientes)
+app.post('/admin/cust/add', db.setCliente)
+
+app.get('/admin/emp', db.getVendedor)
+app.post('/admin/emp/add', db.setVendedor)
+
+app.get('/category', db.getCategorias)
+app.post('/category/add', db.setCategoria)
+
+app.get('/category/sub', db.getSubCategorias)
+app.post('/category/sub/add', db.setSubCategoria)
+
+app.get('/product', db.getProduct)
+app.post('/product/add', db.setProduct)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
