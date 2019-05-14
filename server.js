@@ -36,7 +36,7 @@ app.get('/category', db.getCategorias)
 app.post('/category/add', db.setCategoria)
 
 app.get('/category/sub', db.getSubCategorias)
-app.get('/category/sub/id', db.getSubCategoriaByParent)
+app.post('/category/sub/id', db.getSubCategoriaByParent)
 app.post('/category/sub/add', db.setSubCategoria)
 
 app.get('/product', db.getProduct)
