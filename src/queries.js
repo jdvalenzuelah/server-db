@@ -119,6 +119,18 @@ const setSubCategoria = (req, res) => {
     })
 }
 
+const getSubCategoriaByParent = (req, res) => {
+    readTransaction()
+    let parentId = req.body.id
+    pool.query('SELECT * FROM subcategoria WHERE idcategoria = $1', [parentId], (error, results) => {
+        if(error) {
+            res.send(`Unable to save user error: ${error.detail}`)
+        } else {
+            res.status(200).json(results.rows)
+        }
+    })
+}
+
 const getProduct = (req, res) => {
     readTransaction()
     pool.query('SELECT * FROM producto', (error, results) => {
@@ -156,5 +168,6 @@ module.exports = {
     getSubCategorias,
     setSubCategoria,
     getProduct,
-    setProduct
+    setProduct,
+    getSubCategoriaByParent
 }
