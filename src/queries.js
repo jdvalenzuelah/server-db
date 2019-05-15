@@ -237,6 +237,18 @@ const getAtribId = (req, res) => {
     })
 }
 
+const addFactura = (req, res) => {
+    let {fecha, nit, idvendedor} = req.body
+    pool.query(
+        'INSERT INTO factura (fecha, nit, idvendedor) VALUES ($1, $2, $3)',
+        [fecha, nit, idvendedor]
+    ).then(results => {
+        res.status(201).send(`Employee added: ${results}`)
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error.detail}`)
+    })
+}
+
 module.exports = {
     getClientes,
     setCliente,
@@ -253,5 +265,6 @@ module.exports = {
     setAtribProd,
     getClientesID,
     getProductId,
-    getAtribId
+    getAtribId,
+    addFactura
 }
