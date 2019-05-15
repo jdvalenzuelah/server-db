@@ -41,6 +41,9 @@ app.post('/category/sub/add', db.setSubCategoria)
 
 app.get('/product', db.getProduct)
 app.post('/product/add', db.setProduct)
+app.post('/product/add/atrib', db.setAtrib)
+app.post('/product/add/atrib/prod', db.setAtribProd)
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)

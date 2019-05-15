@@ -143,19 +143,44 @@ const getProduct = (req, res) => {
 }
 
 const setProduct = (req, res) => {
+
     writeTransaction()
-    let {id, nombre, precio, descripcion, idCat, atributo} = req.body
+
+    let {nombre, precio, descripcion, idCat} = req.body
+    //let atribs = JSON.parse(atributos)
+
     pool.query(
-        'INSERT INTO producto VALUES ($1, $2, $3, $4, $5, $6)',
-        [id, nombre, precio, descripcion, idCat, atributo],
-        (error, results) => {
-            if (error){
-                res.send(`Unable to save user error: ${error.detail}`)
-            } else {
-                res.status(201).send(`Employee added: ${results}`)
-            }
-        }
-    )
+        'INSERT INTO producto(nombre, precio, descripcion, idSubCategoria) VALUES ($1, $2, $3, $4) RETURNING idproducto',
+        [nombre, precio, descripcion, idCat]
+    ).then(results => {
+        res.status(200).json(results.rows)
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error.detail}`)
+    })
+}
+
+const setAtrib = (req, res) => {
+    let nombre = req.body.nombre
+    pool.query(
+        'INSERT INTO atributo(nombre) VALUES($1) RETURNING idAtributoProducto',
+        [nombre]
+    ).then(results => {
+        res.status(200).json(results.rows)
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error.detail}`)
+    })
+}
+
+const setAtribProd = (req, res) => {
+    let {idProd, idAtrProd, opt} = req.body
+    pool.query(
+        'INSERT INTO atributoproducto(idatributoproducto, idproducto, opciones) VALUES ($1, $2, $3)',
+        [idAtrProd,idProd, opt]
+    ).then(() => {
+        res.status(201).send('ADDED')
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error.detail}`)
+    })
 }
 
 module.exports = {
@@ -169,5 +194,7 @@ module.exports = {
     setSubCategoria,
     getProduct,
     setProduct,
-    getSubCategoriaByParent
+    getSubCategoriaByParent,
+    setAtrib,
+    setAtribProd
 }
