@@ -155,6 +155,31 @@ const getProduct = (req, res) => {
     })
 }
 
+const getProductId = (req, res) => {
+    let id = req.body.idproducto
+    readTransaction()
+    pool.query(
+        `SELECT
+            producto.idProducto AS id_producto,
+            producto.nombre AS nombre_producto,
+            producto.precio AS precio_producto,
+            producto.descripcion AS descripcion_producto,
+            subCategoria.tipoSubCategoria AS subcategoria,
+            categoria.tipoCategoria AS categoria
+        FROM producto
+        INNER JOIN subcategoria
+        ON producto.idSubCategoria = subcategoria.idSubCategoria
+        INNER JOIN categoria
+        ON subcategoria.idCategoria = categoria.idCategoria
+        WHERE producto.idProducto = $1`,
+        [id]
+    ).then(results => {
+        res.status(200).json(results.rows)
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error.detail}`)
+    })
+}
+
 const setProduct = (req, res) => {
 
     writeTransaction()
@@ -196,6 +221,22 @@ const setAtribProd = (req, res) => {
     })
 }
 
+const getAtribId = (req, res) => {
+    let id = req.body.id
+
+    pool.query(
+        `SELECT nombre, opciones, unico FROM atributoproducto 
+         INNER JOIN atributo 
+         ON atributo.idatributoproducto = atributoproducto.idatributoproducto
+         WHERE atributoproducto.idproducto = $1`,
+        [id]
+    ).then(results => {
+        res.status(200).json(results.rows)
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error.detail}`)
+    })
+}
+
 module.exports = {
     getClientes,
     setCliente,
@@ -210,5 +251,7 @@ module.exports = {
     getSubCategoriaByParent,
     setAtrib,
     setAtribProd,
-    getClientesID
+    getClientesID,
+    getProductId,
+    getAtribId
 }

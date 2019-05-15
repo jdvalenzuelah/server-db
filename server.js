@@ -41,6 +41,8 @@ app.post('/category/sub/id', db.getSubCategoriaByParent)
 app.post('/category/sub/add', db.setSubCategoria)
 
 app.get('/product', db.getProduct)
+app.post('/product/id', db.getProductId)
+app.post('/product/atrib/all', db.getAtribId)
 app.post('/product/add', db.setProduct)
 app.post('/product/add/atrib', db.setAtrib)
 app.post('/product/add/atrib/prod', db.setAtribProd)
