@@ -28,6 +28,19 @@ const getClientes = (req, res) => {
     })
   }
 
+  const getClientesID = (req, res) => {
+    let nit = req.body.nit
+    readTransaction()
+    pool.query('SELECT * FROM cliente WHERE nit = $1', [nit] , (error, results) => {
+      if (error) {
+        console.log(error)
+      } else {
+        res.status(200).json(results.rows)
+      }
+      
+    })
+  }
+
 const setCliente = (req, res) => {
     writeTransaction()
     let {nit, nombre, telefono, direccion} = req.body
@@ -196,5 +209,6 @@ module.exports = {
     setProduct,
     getSubCategoriaByParent,
     setAtrib,
-    setAtribProd
+    setAtribProd,
+    getClientesID
 }

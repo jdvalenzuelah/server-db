@@ -28,6 +28,7 @@ app.get('/', (request, response) => {
 
 app.get('/admin/cust', db.getClientes)
 app.post('/admin/cust/add', db.setCliente)
+app.post('/admin/cust/id', db.getClientesID)
 
 app.get('/admin/emp', db.getVendedor)
 app.post('/admin/emp/add', db.setVendedor)
