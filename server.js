@@ -48,6 +48,7 @@ app.post('/product/add/atrib', db.setAtrib)
 app.post('/product/add/atrib/prod', db.setAtribProd)
 
 app.post('/invoice/add', db.addFactura)
+app.post('/invoice/add/details', db.addPurchase)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
