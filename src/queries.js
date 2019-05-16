@@ -271,6 +271,11 @@ const getSales = (req, res) => {
         res.send(`Unable to save user error: ${error}`)
     })
 }
+/*
+SELECT * FROM compras
+INNER JOIN factura
+ON compras.numfactura = factura.numfactura
+*/
 
 module.exports = {
     getClientes,
