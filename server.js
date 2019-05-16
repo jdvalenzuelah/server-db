@@ -47,6 +47,7 @@ app.post('/product/add', db.setProduct)
 app.post('/product/add/atrib', db.setAtrib)
 app.post('/product/add/atrib/prod', db.setAtribProd)
 
+app.get('/invoice', db.getSales)
 app.post('/invoice/add', db.addFactura)
 app.post('/invoice/add/details', db.addPurchase)
 

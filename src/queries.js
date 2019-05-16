@@ -46,7 +46,7 @@ const setCliente = (req, res) => {
     let {nit, nombre, telefono, direccion} = req.body
     pool.query('INSERT INTO cliente VALUES ($1, $2, $3, $4)', [nit, nombre, telefono, direccion],(error, result) => {
         if(error) {
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(201).send(`Client added NIT: ${result}`)
         }
@@ -57,7 +57,7 @@ const getVendedor = (req, res) => {
     readTransaction()
     pool.query('SELECT * FROM vendedor ORDER BY idVendedor', (error, results) => {
         if(error){
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(200).json(results.rows)
         }
@@ -72,7 +72,7 @@ const setVendedor = (req, res) => {
         [id, nombre, telefono, direccion, fechaEntrada, salario],
         (error, result) => {
             if(error){
-                res.send(`Unable to save user error: ${error.detail}`)
+                res.send(`Unable to save user error: ${error}`)
             } else {
                 res.status(201).send(`Employee added: ${result}`)
             }
@@ -83,7 +83,7 @@ const getCategorias = (req, res) => {
     readTransaction()
     pool.query('SELECT * FROM categoria ORDER BY idCategoria', (error, results) => {
         if(error){
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(200).json(results.rows)
         }
@@ -95,7 +95,7 @@ const setCategoria = (req, res) => {
     let {id, tipo} = req.body
     pool.query('INSERT INTO categoria VALUES ($1, $2)', [tipo, id], (error, results) => {
         if(error){
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(201).send(`Employee added: ${results}`)
         }
@@ -113,7 +113,7 @@ const getSubCategorias = (req, res) => {
     }
     pool.query(cons, (error, results) => {
         if (error){
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(200).json(results.rows)
         }
@@ -125,7 +125,7 @@ const setSubCategoria = (req, res) => {
     let {idSub, tipo, idCat} = req.body
     pool.query('INSERT INTO subCategoria VALUES ($1, $2, $3)',[idSub, tipo, idCat], (error, results) => {
         if(error){
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(201).send(`Employee added: ${results}`)
         }
@@ -137,7 +137,7 @@ const getSubCategoriaByParent = (req, res) => {
     let parentId = req.body.id
     pool.query('SELECT * FROM subcategoria WHERE idcategoria = $1', [parentId], (error, results) => {
         if(error) {
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(200).json(results.rows)
         }
@@ -148,7 +148,7 @@ const getProduct = (req, res) => {
     readTransaction()
     pool.query('SELECT * FROM producto', (error, results) => {
         if(error){
-            res.send(`Unable to save user error: ${error.detail}`)
+            res.send(`Unable to save user error: ${error}`)
         } else {
             res.status(200).json(results.rows)
         }
@@ -176,7 +176,7 @@ const getProductId = (req, res) => {
     ).then(results => {
         res.status(200).json(results.rows)
     }).catch(error => {
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -193,7 +193,7 @@ const setProduct = (req, res) => {
     ).then(results => {
         res.status(200).json(results.rows)
     }).catch(error => {
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -205,7 +205,7 @@ const setAtrib = (req, res) => {
     ).then(results => {
         res.status(200).json(results.rows)
     }).catch(error => {
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -217,7 +217,7 @@ const setAtribProd = (req, res) => {
     ).then(() => {
         res.status(201).send('ADDED')
     }).catch(error => {
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -233,7 +233,7 @@ const getAtribId = (req, res) => {
     ).then(results => {
         res.status(200).json(results.rows)
     }).catch(error => {
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -245,7 +245,7 @@ const addFactura = (req, res) => {
     ).then(results => {
         res.status(200).json(results.rows)
     }).catch(error => {
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -258,7 +258,17 @@ const addPurchase = (req, res) => {
         res.status(201).send(`Employee added: ${results}`)
     }).catch(error => {
         console.log(error)
-        res.send(`Unable to save user error: ${error.detail}`)
+        res.send(`Unable to save user error: ${error}`)
+    })
+}
+
+const getSales = (req, res) => {
+    pool.query(
+        'SELECT * FROM factura'
+    ).then(results => {
+        res.status(200).json(results.rows)
+    }).catch(error => {
+        res.send(`Unable to save user error: ${error}`)
     })
 }
 
@@ -280,5 +290,6 @@ module.exports = {
     getProductId,
     getAtribId,
     addFactura,
-    addPurchase
+    addPurchase,
+    getSales
 }
