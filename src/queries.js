@@ -238,10 +238,10 @@ const getAtribId = (req, res) => {
 }
 
 const addFactura = (req, res) => {
-    let {fecha, nit, idvendedor} = req.body
+    let {fecha, nit, idvendedor, idtienda} = req.body
     pool.query(
-        'INSERT INTO factura (fecha, nit, idvendedor) VALUES ($1, $2, $3) RETURNING numfactura',
-        [fecha, nit, idvendedor]
+        'INSERT INTO factura (fecha, nit, idvendedor, idtienda) VALUES ($1, $2, $3, $4) RETURNING numfactura',
+        [fecha, nit, idvendedor, idtienda]
     ).then(results => {
         res.status(200).json(results.rows)
     }).catch(error => {
