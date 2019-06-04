@@ -238,7 +238,8 @@ const getAtribId = (req, res) => {
 }
 
 const addFactura = (req, res) => {
-    let {fecha, nit, idvendedor, idtienda} = req.body
+    let {fecha, nit, idvendedor} = req.body
+    let idtienda = Math.floor(Math.random() * 100) + 5
     pool.query(
         'INSERT INTO factura (fecha, nit, idvendedor, idtienda) VALUES ($1, $2, $3, $4) RETURNING numfactura',
         [fecha, nit, idvendedor, idtienda]
